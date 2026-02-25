@@ -264,7 +264,7 @@ const HomePage = () => {
                 className="text-4xl md:text-5xl font-bold text-[#2C2416] mb-6"
                 style={{ fontFamily: 'Cormorant Garamond, serif' }}
               >
-                Restaurant & Bar d'Exception
+                Restaurant & Café d'Exception
               </h2>
               <div className="w-16 h-1 bg-[#C9A961] mb-6"></div>
               <p className="text-[#6B5D4F] leading-relaxed mb-6 text-lg">
@@ -279,7 +279,7 @@ const HomePage = () => {
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircleIcon className="h-6 w-6 text-[#C9A961] flex-shrink-0 mt-1" />
-                  <span className="text-[#6B5D4F]">Bar à cocktails premium</span>
+                  <span className="text-[#6B5D4F]">Corner de boissons premium</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircleIcon className="h-6 w-6 text-[#C9A961] flex-shrink-0 mt-1" />

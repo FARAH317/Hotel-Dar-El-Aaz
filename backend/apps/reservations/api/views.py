@@ -150,31 +150,68 @@ class ReservationViewSet(viewsets.ModelViewSet):
             }, status=status.HTTP_400_BAD_REQUEST)
     
     @action(detail=True, methods=['post'], url_path='cancel')
+   
     def cancel(self, request, pk=None):
-        """
-        Cancel a reservation.
+       """
+       Cancel a reservation.
+    
+       POST /api/reservations/{id}/cancel/
+       """
+       try:
+          print(f"🔍 VIEW - Starting cancellation")
+          print(f"🔍 VIEW - Request data: {request.data}")
+          print(f"🔍 VIEW - Reservation ID: {pk}")
+          print(f"🔍 VIEW - User: {request.user.email}")
         
-        POST /api/reservations/{id}/cancel/
-        """
-        reservation = self.get_object()
-        serializer = CancelReservationSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+          reservation = self.get_object()
+          print(f"🔍 VIEW - Reservation found: {reservation.reservation_number}")
+          print(f"🔍 VIEW - Current status: {reservation.status}")
         
-        try:
-            cancelled_reservation = ReservationService.cancel_reservation(
-                reservation.id,
-                reason=serializer.validated_data.get('reason', '')
+          serializer = CancelReservationSerializer(data=request.data)
+          serializer.is_valid(raise_exception=True)
+        
+          reason = serializer.validated_data.get('reason', '')
+          print(f"🔍 VIEW - Cancellation reason: '{reason}'")
+        
+          cancelled_reservation = ReservationService.cancel_reservation(
+              reservation.id,
+              reason=reason
             )
-            
-            return Response({
-                'message': 'Réservation annulée avec succès',
-                'reservation': ReservationDetailSerializer(cancelled_reservation).data
-            })
-            
-        except DjangoValidationError as e:
-            return Response({
-                'error': str(e)
+        
+          print(f"✅ VIEW - Cancellation successful")
+          print(f"✅ VIEW - New status: {cancelled_reservation.status}")
+        
+          return Response({
+              'message': 'Réservation annulée avec succès',
+              'reservation': ReservationDetailSerializer(cancelled_reservation).data
+         }, status=status.HTTP_200_OK)
+        
+       except DjangoValidationError as e:
+           error_message = str(e)
+           print(f"❌ VIEW - Validation error: {error_message}")
+           return Response({
+              'error': error_message
             }, status=status.HTTP_400_BAD_REQUEST)
+    
+       except Reservation.DoesNotExist:
+          error_message = "Réservation introuvable"
+          print(f"❌ VIEW - {error_message}")
+          return Response({
+              'error': error_message
+            }, status=status.HTTP_404_NOT_FOUND)
+    
+       except Exception as e:
+          error_message = f"Erreur serveur: {str(e)}"
+          print(f"❌ VIEW - Unexpected error: {type(e).__name__}: {str(e)}")
+        
+          # Afficher le traceback complet pour debug
+          import traceback
+          print(f"❌ VIEW - Traceback:")
+          print(traceback.format_exc())
+        
+          return Response({
+            'error': error_message
+          }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     @action(detail=True, methods=['post'], url_path='check-in', permission_classes=[IsAdminUser])
     def check_in(self, request, pk=None):

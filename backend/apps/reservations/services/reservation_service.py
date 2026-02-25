@@ -5,6 +5,7 @@ Implements Unit of Work pattern for transactions.
 from django.db import transaction
 from django.core.exceptions import ValidationError
 from decimal import Decimal, ROUND_HALF_UP
+from datetime import date  # ✅ AJOUT: Import manquant
 
 from apps.reservations.models import Reservation
 from apps.reservations.services.states import get_reservation_state
@@ -17,6 +18,7 @@ class ReservationService:
     """
     
     TAX_RATE = Decimal('0.19')  # 19% TVA en Algérie
+    
     @staticmethod
     def round_decimal(value):
        """Round decimal to 2 places."""
@@ -28,21 +30,6 @@ class ReservationService:
                           number_of_guests=1, special_requests='', **kwargs):
         """
         Create a new reservation with all validations.
-        
-        Args:
-            user: User making the reservation
-            room_id: UUID of the room
-            check_in_date: Check-in date
-            check_out_date: Check-out date
-            number_of_guests: Number of guests
-            special_requests: Special requests
-            **kwargs: Additional guest info
-        
-        Returns:
-            Reservation: Created reservation
-        
-        Raises:
-            ValidationError: If validation fails
         """
         # Get room
         try:
@@ -67,14 +54,10 @@ class ReservationService:
         # Calculate pricing
         price_per_night = room.current_price
         nights = (check_out_date - check_in_date).days
-        # Calculate pricing
-        price_per_night = room.current_price
-        nights = (check_out_date - check_in_date).days
         subtotal = ReservationService.round_decimal(price_per_night * nights)
         tax_amount = ReservationService.round_decimal(subtotal * ReservationService.TAX_RATE)
         total_amount = ReservationService.round_decimal(subtotal + tax_amount)
 
-        
         # Create reservation
         reservation = Reservation(
             user=user,
@@ -97,6 +80,7 @@ class ReservationService:
         # Validate and save
         reservation.full_clean()
         reservation.save()
+        
         try:
             NotificationService.send_reservation_confirmation(reservation)
         except Exception as e:
@@ -109,12 +93,6 @@ class ReservationService:
     def confirm_reservation(reservation_id):
         """
         Confirm a pending reservation.
-        
-        Args:
-            reservation_id: UUID of the reservation
-        
-        Returns:
-            Reservation: Confirmed reservation
         """
         reservation = Reservation.objects.get(id=reservation_id)
         
@@ -124,7 +102,6 @@ class ReservationService:
         reservation.status = 'CONFIRMED'
         reservation.save(update_fields=['status', 'updated_at'])
         
-        # ✅ Envoyer notification de confirmation
         try:
             NotificationService.send_reservation_confirmed(reservation)
         except Exception as e:
@@ -132,7 +109,6 @@ class ReservationService:
         
         return reservation
 
-    
     @staticmethod
     @transaction.atomic
     def cancel_reservation(reservation_id, reason='', cancelled_by=None):
@@ -142,30 +118,33 @@ class ReservationService:
         Args:
             reservation_id: UUID of the reservation
             reason: Cancellation reason
+            cancelled_by: User who cancelled (optional, not stored in model)
         
         Returns:
             Reservation: Cancelled reservation
         """
         from django.utils import timezone
         
-        reservation = Reservation.objects.get(id=reservation_id)
+        reservation = Reservation.objects.select_related('room').get(id=reservation_id)
         
+        # ✅ CORRECTION: Vérification du statut
         if reservation.status not in ['PENDING', 'CONFIRMED']:
             raise ValidationError("Cette réservation ne peut pas être annulée.")
         
-        # Check cancellation policy
+        # ✅ CORRECTION: Vérification de la date
         days_until_checkin = (reservation.check_in_date - date.today()).days
         if days_until_checkin < 0:
             raise ValidationError("Impossible d'annuler une réservation passée.")
         
+        # ✅ CORRECTION: Mise à jour du statut
         reservation.status = 'CANCELLED'
         reservation.cancellation_reason = reason
         reservation.cancelled_at = timezone.now()
-        reservation.cancelled_by = cancelled_by
-        reservation.save()
+        # ✅ SUPPRIMÉ: reservation.cancelled_by (n'existe pas dans le modèle)
+        reservation.save(update_fields=['status', 'cancellation_reason', 'cancelled_at', 'updated_at'])
         
-        # Free up the room
-        if reservation.room:
+        # ✅ CORRECTION: Libérer la chambre si elle était occupée
+        if reservation.room and reservation.room.status == 'OCCUPIED':
             reservation.room.status = 'AVAILABLE'
             reservation.room.save(update_fields=['status', 'updated_at'])
         
@@ -182,12 +161,6 @@ class ReservationService:
     def check_in_reservation(reservation_id):
         """
         Perform check-in for a reservation.
-        
-        Args:
-            reservation_id: UUID of the reservation
-        
-        Returns:
-            Reservation: Checked-in reservation
         """
         reservation = Reservation.objects.select_related('room').get(id=reservation_id)
         state = get_reservation_state(reservation)
@@ -199,12 +172,6 @@ class ReservationService:
     def check_out_reservation(reservation_id):
         """
         Perform check-out for a reservation.
-        
-        Args:
-            reservation_id: UUID of the reservation
-        
-        Returns:
-            Reservation: Checked-out reservation
         """
         reservation = Reservation.objects.select_related('room').get(id=reservation_id)
         state = get_reservation_state(reservation)
@@ -216,13 +183,6 @@ class ReservationService:
     def update_reservation(reservation_id, **update_data):
         """
         Update a reservation (only if modifiable).
-        
-        Args:
-            reservation_id: UUID of the reservation
-            **update_data: Fields to update
-        
-        Returns:
-            Reservation: Updated reservation
         """
         reservation = Reservation.objects.select_related('room').get(id=reservation_id)
         state = get_reservation_state(reservation)
@@ -246,14 +206,6 @@ class ReservationService:
     def apply_discount(reservation_id, discount_amount, reason=''):
         """
         Apply a discount to a reservation.
-        
-        Args:
-            reservation_id: UUID of the reservation
-            discount_amount: Discount amount
-            reason: Reason for discount
-        
-        Returns:
-            Reservation: Updated reservation
         """
         reservation = Reservation.objects.get(id=reservation_id)
         
@@ -271,12 +223,6 @@ class ReservationService:
     def get_available_actions(reservation_id):
         """
         Get available actions for a reservation based on its state.
-        
-        Args:
-            reservation_id: UUID of the reservation
-        
-        Returns:
-            list: Available actions
         """
         reservation = Reservation.objects.get(id=reservation_id)
         state = get_reservation_state(reservation)
