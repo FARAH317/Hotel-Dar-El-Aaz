@@ -5,6 +5,7 @@ djangorestframework-simplejwt  # JWT authentication
 
 # Database
 psycopg2-binary>=2.9.10,<3.0  # PostgreSQL driver
+dj-database-url>=2.1.0,<3.0  # Database URL parsing
 
 # Environment variables
 python-dotenv>=1.0.0,<2.0
