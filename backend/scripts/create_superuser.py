@@ -1,15 +1,17 @@
-import os
+import django
+django.setup()
+
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
 email = "admin@timgadhotel.com"
+password = "admin123"
 
 if not User.objects.filter(email=email).exists():
     User.objects.create_superuser(
-        username="admin",
         email=email,
-        password="admin123"
+        password=password
     )
     print("Superuser created ✅")
 else:
