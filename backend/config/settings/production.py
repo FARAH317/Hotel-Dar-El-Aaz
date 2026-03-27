@@ -2,7 +2,7 @@ import os
 from .base import *
 
 DEBUG = False
-ALLOWED_HOSTS = ['timgad-hotel-api.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['timgadhotel.onrender.com', 'localhost', '127.0.0.1']
 
 # Security Settings for Production
 SECURE_SSL_REDIRECT = True
