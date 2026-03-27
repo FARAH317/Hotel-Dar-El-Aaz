@@ -15,7 +15,7 @@ SECURE_CONTENT_SECURITY_POLICY = {
 
 # CORS Configuration
 CORS_ALLOWED_ORIGINS = [
-    "https://timgad-hotel.vercel.app",
+    "https://timgadhotel.vercel.app",
     "http://localhost:3000",
     "http://localhost:5173",
 ]
