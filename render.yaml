@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: timgad-hotel-api
+    name: darelaaz-hotel-api
     runtime: python
     rootDir: backend
     buildCommand: |

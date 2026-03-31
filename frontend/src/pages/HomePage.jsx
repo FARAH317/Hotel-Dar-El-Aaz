@@ -13,8 +13,10 @@ import {
 } from '@heroicons/react/24/outline';
 import Button from '@/components/Button';
 import { APP_NAME } from '@/utils/constants';
-import restaurantImage from '@/assets/restaurant.jpg';
-import parkingImage from '@/assets/parking.jpg';
+import restaurantImage from '@/assets/food.jpg';
+import parkingImage from '@/assets/outside.jpg';
+import roomImage from '@/assets/room1.jpg';
+import poolImage from '@/assets/picine.jpg';
 
 const HomePage = () => {
   const features = [
@@ -62,7 +64,7 @@ const HomePage = () => {
       title: 'Chambres & Suites',
       description: 'Des espaces élégants conçus pour votre confort absolu',
       count: '150+',
-      image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&q=80',
+      image: roomImage,
     },
     {
       icon: FireIcon,
@@ -73,7 +75,7 @@ const HomePage = () => {
     },
     {
       icon: BuildingOffice2Icon,
-      title: 'Parking',
+      title: 'Parking & Extérieur',
       description: 'Détendez-vous dans notre centre de bien-être luxueux',
       count: 'Premium',
       image: parkingImage,

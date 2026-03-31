@@ -2,7 +2,7 @@
 export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
 // App Info
-export const APP_NAME = import.meta.env.VITE_APP_NAME || 'Timgad Hotel';
+export const APP_NAME = import.meta.env.VITE_APP_NAME || 'Hôtel Dar El Aaz';
 
 // Local Storage Keys
 export const STORAGE_KEYS = {

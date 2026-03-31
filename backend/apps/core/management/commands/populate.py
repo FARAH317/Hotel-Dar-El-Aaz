@@ -19,7 +19,11 @@ class Command(BaseCommand):
         for rt_data in room_types_data:
             room_type, created = RoomType.objects.get_or_create(
                 name=rt_data['name'],
-                defaults=rt_data
+                defaults={
+                    'description': rt_data['description'],
+                    'base_price': rt_data['price_per_night'],
+                    'max_occupancy': rt_data['capacity']
+                }
             )
             if created:
                 self.stdout.write(f'  Created room type: {room_type.name}')
@@ -57,13 +61,13 @@ class Command(BaseCommand):
         self.stdout.write('Creating admin user...')
         
         # Create admin user
-        admin_email = 'admin@timgadhotel.com'
+        admin_email = 'admin@hoteldarelaaz.com'
         if not User.objects.filter(email=admin_email).exists():
             User.objects.create_superuser(
                 email=admin_email,
                 password='admin123',
                 first_name='Admin',
-                last_name='Timgad',
+                last_name='Dar El Aaz',
                 role='ADMIN'
             )
             self.stdout.write(f'  Created admin user: {admin_email}')
@@ -71,4 +75,4 @@ class Command(BaseCommand):
             self.stdout.write('  Admin user already exists')
 
         self.stdout.write(self.style.SUCCESS('Database populated successfully!'))
-        self.stdout.write('Admin credentials: admin@timgadhotel.com / admin123')
+        self.stdout.write('Admin credentials: admin@hoteldarelaaz.com / admin123')

@@ -354,16 +354,16 @@ const RoomDetails = () => {
                   </h4>
                   <div className="space-y-2 text-xs">
                     <a 
-                      href="tel:+213555123456" 
+                      href="tel:+213560990863" 
                       className="flex items-center justify-center gap-2 text-[#6B5D4F] hover:text-[#C9A961] transition-colors"
                     >
                       📞 +213 555 12 34 56
                     </a>
                     <a 
-                      href="mailto:contact@hotel.com" 
+                      href="mailto:contact@hoteldarelaaz.com" 
                       className="flex items-center justify-center gap-2 text-[#6B5D4F] hover:text-[#C9A961] transition-colors"
                     >
-                      ✉️ contact@hotel.com
+                      ✉️ contact@hoteldarelaaz.com
                     </a>
                   </div>
                 </Card>

@@ -92,15 +92,15 @@ const Footer = () => {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-[#8B7965]">
                 <MapPinIcon className="h-5 w-5 text-[#C9A961] mt-0.5 flex-shrink-0" />
-                <span>6 Rue Benhamed Lahouari, Oran</span>
+                <span>02 Rue Des Frères Harieche, ERRABTA JIJEL Jijel - 18000, Rte rabta, Jijel</span>
               </li>
               <li className="flex items-center gap-3 text-[#8B7965]">
                 <PhoneIcon className="h-5 w-5 text-[#C9A961] flex-shrink-0" />
-                <span>041 36 15 14</span>
+                <span>0560 99 08 63</span>
               </li>
               <li className="flex items-center gap-3 text-[#8B7965]">
                 <EnvelopeIcon className="h-5 w-5 text-[#C9A961] flex-shrink-0" />
-                <span>contact@hotel.com</span>
+                <span>contact@hoteldarelaaz.com</span>
               </li>
               <li className="flex items-start gap-3 text-[#8B7965]">
                 <ClockIcon className="h-5 w-5 text-[#C9A961] mt-0.5 flex-shrink-0" />

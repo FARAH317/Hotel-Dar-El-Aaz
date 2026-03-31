@@ -214,7 +214,7 @@ const RoomListPage = () => {
             <a href="tel:+213555123456" className="btn-primary">
               📞 Appeler Maintenant
             </a>
-            <a href="mailto:contact@hotel.com" className="btn-secondary">
+            <a href="mailto:contact@hoteldarelaaz.com" className="btn-secondary">
               ✉️ Envoyer un Email
             </a>
           </div>

@@ -183,11 +183,11 @@ const RoomDetailPage = () => {
             Notre équipe est disponible 24/7 pour répondre à toutes vos questions
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="tel:+213555123456" className="btn-primary">
-              📞 +213 555 12 34 56
+            <a href="tel:+213560990863" className="btn-primary">
+              📞 0560 99 08 63
             </a>
-            <a href="mailto:contact@hotel.com" className="btn-secondary">
-              ✉️ contact@hotel.com
+            <a href="mailto:contact@hoteldarelaaz.com" className="btn-secondary">
+              ✉️ contact@hoteldarelaaz.com
             </a>
           </div>
         </div>
