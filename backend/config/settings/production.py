@@ -2,7 +2,13 @@ import os
 from .base import *
 
 DEBUG = False
-ALLOWED_HOSTS = ['hoteldarelaaz.vercel.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'hoteldarelaaz.vercel.app',
+    'hotel-dar-el-aaz.onrender.com',
+    '.onrender.com',
+    'localhost',
+    '127.0.0.1',
+]
 
 # Security Settings for Production
 SECURE_SSL_REDIRECT = True
@@ -16,6 +22,7 @@ SECURE_CONTENT_SECURITY_POLICY = {
 # CORS Configuration
 CORS_ALLOWED_ORIGINS = [
     "https://hoteldarelaaz.vercel.app",
+    "https://hotel-dar-el-aaz.onrender.com",
     "http://localhost:3000",
     "http://localhost:5173",
 ]
