@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from django.core.wsgi import get_wsgi_application
 
 # Définit le module de settings utilisé
@@ -7,9 +8,18 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', DJANGO_SETTINGS)
 
 application = get_wsgi_application()
 
-# Support for serving static/media files on Heroku/Render with Whitenoise
+# Support for serving static files on Heroku/Render with Whitenoise
 try:
     from whitenoise import WhiteNoise
-    application = WhiteNoise(application, root='staticfiles')
+    # Get the absolute path to staticfiles directory
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    STATICFILES_DIR = os.path.join(BASE_DIR, 'staticfiles')
+    # Serve static files with Whitenoise
+    application = WhiteNoise(
+        application,
+        root=STATICFILES_DIR,
+        mimetypes={'woff2': 'font/woff2'},
+        autorefresh=False
+    )
 except ImportError:
     pass
