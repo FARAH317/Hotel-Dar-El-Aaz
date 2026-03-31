@@ -1,5 +1,7 @@
 // API Base URL
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+// Pour le déploiement Render : https://hotel-dar-el-aaz.onrender.com/api
+// Valeur par défaut de production (fallback) : héberge sur Render
+export const API_URL = import.meta.env.VITE_API_URL || 'https://hotel-dar-el-aaz.onrender.com/api';
 
 // App Info
 export const APP_NAME = import.meta.env.VITE_APP_NAME || 'Hôtel Dar El Aaz';

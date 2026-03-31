@@ -307,7 +307,7 @@ EMAIL_PASSWORD=<password>
 
 **Frontend**
 \\\
-VITE_API_URL=http://localhost:8000/api
+VITE_API_URL=https://hotel-dar-el-aaz.onrender.com/api
 \\\
 
 ---
