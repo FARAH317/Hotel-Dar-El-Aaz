@@ -32,6 +32,6 @@ urlpatterns = [
 if settings.MEDIA_URL and settings.MEDIA_ROOT:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# Serve static files in development
-if settings.DEBUG:
+# Serve static files (development and production fallback)
+if settings.STATIC_URL and settings.STATIC_ROOT:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
