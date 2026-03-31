@@ -34,13 +34,13 @@ class Command(BaseCommand):
         
         # Create rooms
         rooms_data = [
-            {'room_number': '101', 'room_type': 'Chambre Simple', 'floor': 1, 'is_available': True},
-            {'room_number': '102', 'room_type': 'Chambre Simple', 'floor': 1, 'is_available': True},
-            {'room_number': '103', 'room_type': 'Chambre Double', 'floor': 1, 'is_available': True},
-            {'room_number': '104', 'room_type': 'Chambre Double', 'floor': 1, 'is_available': True},
-            {'room_number': '201', 'room_type': 'Suite Junior', 'floor': 2, 'is_available': True},
-            {'room_number': '202', 'room_type': 'Suite Junior', 'floor': 2, 'is_available': True},
-            {'room_number': '301', 'room_type': 'Suite Présidentielle', 'floor': 3, 'is_available': True},
+            {'room_number': '101', 'room_type': 'Chambre Simple', 'floor': 1, 'status': 'AVAILABLE'},
+            {'room_number': '102', 'room_type': 'Chambre Simple', 'floor': 1, 'status': 'AVAILABLE'},
+            {'room_number': '103', 'room_type': 'Chambre Double', 'floor': 1, 'status': 'AVAILABLE'},
+            {'room_number': '104', 'room_type': 'Chambre Double', 'floor': 1, 'status': 'AVAILABLE'},
+            {'room_number': '201', 'room_type': 'Suite Junior', 'floor': 2, 'status': 'AVAILABLE'},
+            {'room_number': '202', 'room_type': 'Suite Junior', 'floor': 2, 'status': 'AVAILABLE'},
+            {'room_number': '301', 'room_type': 'Suite Présidentielle', 'floor': 3, 'status': 'AVAILABLE'},
         ]
         
         for room_data in rooms_data:
@@ -50,7 +50,7 @@ class Command(BaseCommand):
                 defaults={
                     'room_type': room_type,
                     'floor': room_data['floor'],
-                    'is_available': room_data['is_available'],
+                    'status': room_data['status'],
                 }
             )
             if created:
